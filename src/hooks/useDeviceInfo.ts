@@ -1,5 +1,10 @@
-import { useEffect, useState } from 'react';
-import { DeviceInfo, getDetailedDeviceInfo, getDeviceInfo, simulatedNativeModule } from '../utils/deviceInfo';
+import { useEffect, useState } from "react";
+import {
+  DeviceInfo,
+  getDetailedDeviceInfo,
+  getDeviceInfo,
+  simulatedNativeModule,
+} from "../utils/deviceInfo";
 
 export const useDeviceInfo = () => {
   const [deviceInfo, setDeviceInfo] = useState<DeviceInfo | null>(null);
@@ -26,9 +31,8 @@ export const useDeviceInfo = () => {
         const nativeInfo = await simulatedNativeModule.getOSVersion();
         const systemInfo = await simulatedNativeModule.getSystemInfo();
         setNativeModuleInfo({ ...nativeInfo, ...systemInfo });
-
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Unknown error');
+        setError(err instanceof Error ? err.message : "Unknown error");
       } finally {
         setLoading(false);
       }
@@ -55,14 +59,13 @@ export const useDeviceInfo = () => {
         const nativeInfo = await simulatedNativeModule.getOSVersion();
         const systemInfo = await simulatedNativeModule.getSystemInfo();
         setNativeModuleInfo({ ...nativeInfo, ...systemInfo });
-
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Unknown error');
+        setError(err instanceof Error ? err.message : "Unknown error");
       } finally {
         setLoading(false);
       }
     };
-    
+
     await fetchDeviceInfo();
   };
 
@@ -95,20 +98,20 @@ export const useNativeModuleDemo = () => {
   const callNativeModule = async () => {
     try {
       setLoading(true);
-      
+
       // This would be a real native module call in production
       const osInfo = await simulatedNativeModule.getOSVersion();
       const systemInfo = await simulatedNativeModule.getSystemInfo();
-      
+
       setNativeData({
         timestamp: new Date().toISOString(),
         osInfo,
         systemInfo,
-        demonstration: 'This simulates calling a native iOS/Android module',
-        realImplementation: 'In production, this would call actual native code'
+        demonstration: "This simulates calling a native iOS/Android module",
+        realImplementation: "In production, this would call actual native code",
       });
     } catch (error) {
-      console.error('Native module call failed:', error);
+      console.error("Native module call failed:", error);
     } finally {
       setLoading(false);
     }

@@ -1,8 +1,8 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import * as SecureStore from 'expo-secure-store';
-import { AuthState } from '../types';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import * as SecureStore from "expo-secure-store";
+import { AuthState } from "../types";
 
-const TOKEN_KEY = 'auth_token';
+const TOKEN_KEY = "auth_token";
 
 const initialState: AuthState = {
   token: null,
@@ -11,48 +11,48 @@ const initialState: AuthState = {
 
 // Load token from secure storage
 export const loadTokenFromStorage = createAsyncThunk(
-  'auth/loadToken',
+  "auth/loadToken",
   async () => {
     try {
       const token = await SecureStore.getItemAsync(TOKEN_KEY);
       return token;
     } catch (error) {
-      console.error('Failed to load token from secure storage:', error);
+      console.error("Failed to load token from secure storage:", error);
       return null;
     }
-  }
+  },
 );
 
 // Save token to secure storage
 export const saveTokenToStorage = createAsyncThunk(
-  'auth/saveToken',
+  "auth/saveToken",
   async (token: string) => {
     try {
       await SecureStore.setItemAsync(TOKEN_KEY, token);
       return token;
     } catch (error) {
-      console.error('Failed to save token to secure storage:', error);
+      console.error("Failed to save token to secure storage:", error);
       throw error;
     }
-  }
+  },
 );
 
 // Remove token from secure storage
 export const removeTokenFromStorage = createAsyncThunk(
-  'auth/removeToken',
+  "auth/removeToken",
   async () => {
     try {
       await SecureStore.deleteItemAsync(TOKEN_KEY);
       return null;
     } catch (error) {
-      console.error('Failed to remove token from secure storage:', error);
+      console.error("Failed to remove token from secure storage:", error);
       throw error;
     }
-  }
+  },
 );
 
 const authSlice = createSlice({
-  name: 'auth',
+  name: "auth",
   initialState,
   reducers: {
     // For demo purposes - generate a dummy token
@@ -61,7 +61,7 @@ const authSlice = createSlice({
       state.token = dummyToken;
       state.isAuthenticated = true;
     },
-    
+
     logout: (state) => {
       state.token = null;
       state.isAuthenticated = false;
@@ -76,7 +76,7 @@ const authSlice = createSlice({
           state.isAuthenticated = true;
         }
       })
-      
+
       // Save token
       .addCase(saveTokenToStorage.fulfilled, (state, action) => {
         state.token = action.payload;
@@ -86,7 +86,7 @@ const authSlice = createSlice({
         state.token = null;
         state.isAuthenticated = false;
       })
-      
+
       // Remove token
       .addCase(removeTokenFromStorage.fulfilled, (state) => {
         state.token = null;

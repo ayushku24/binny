@@ -1,8 +1,17 @@
-import { Ionicons } from '@expo/vector-icons';
-import React, { useCallback, useMemo, useRef, useState } from 'react';
-import { ActivityIndicator, Alert, FlatList, ListRenderItemInfo, SafeAreaView, Text, TouchableOpacity, View } from 'react-native';
-import { ListItem } from '../../types';
-import { styles } from './styles';
+import { Ionicons } from "@expo/vector-icons";
+import React, { useCallback, useMemo, useRef, useState } from "react";
+import {
+    ActivityIndicator,
+    Alert,
+    FlatList,
+    ListRenderItemInfo,
+    SafeAreaView,
+    Text,
+    TouchableOpacity,
+    View,
+} from "react-native";
+import { ListItem } from "../../types";
+import { styles } from "./styles";
 
 // Generate mock data for 5,000 items
 const generateMockData = (count: number): ListItem[] => {
@@ -19,19 +28,21 @@ const INITIAL_BATCH_SIZE = 20;
 const PAGE_SIZE = 50;
 
 // Memoized list item component for better performance
-const ListItemComponent = React.memo<{ item: ListItem; index: number }>(({ item, index }) => (
-  <View style={styles.listItem}>
-    <View style={styles.itemContent}>
-      <View style={styles.itemHeader}>
-        <Text style={styles.itemTitle}>{item.title}</Text>
-        <Text style={styles.itemValue}>${item.value}</Text>
+const ListItemComponent = React.memo<{ item: ListItem; index: number }>(
+  ({ item, index }) => (
+    <View style={styles.listItem}>
+      <View style={styles.itemContent}>
+        <View style={styles.itemHeader}>
+          <Text style={styles.itemTitle}>{item.title}</Text>
+          <Text style={styles.itemValue}>₹{item.value}</Text>
+        </View>
+        <Text style={styles.itemSubtitle}>{item.subtitle}</Text>
+        <Text style={styles.itemIndex}>Index: {index}</Text>
       </View>
-      <Text style={styles.itemSubtitle}>{item.subtitle}</Text>
-      <Text style={styles.itemIndex}>Index: {index}</Text>
+      <Ionicons name="chevron-forward" size={20} color="#C7C7CC" />
     </View>
-    <Ionicons name="chevron-forward" size={20} color="#C7C7CC" />
-  </View>
-));
+  ),
+);
 
 export default function LargeListScreen() {
   const [data, setData] = useState<ListItem[]>([]);
@@ -40,7 +51,7 @@ export default function LargeListScreen() {
   const [loadingMore, setLoadingMore] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalItems] = useState(5000);
-  
+
   const flatListRef = useRef<FlatList<ListItem>>(null);
 
   // Initialize data
@@ -66,7 +77,7 @@ export default function LargeListScreen() {
       offset: ITEM_HEIGHT * index,
       index,
     }),
-    []
+    [],
   );
 
   // Optimized keyExtractor
@@ -77,7 +88,7 @@ export default function LargeListScreen() {
     ({ item, index }: ListRenderItemInfo<ListItem>) => (
       <ListItemComponent item={item} index={index} />
     ),
-    []
+    [],
   );
 
   // Load more items (pagination)
@@ -85,19 +96,21 @@ export default function LargeListScreen() {
     if (loadingMore || data.length >= totalItems) return;
 
     setLoadingMore(true);
-    
+
     setTimeout(() => {
       const startIndex = currentPage * PAGE_SIZE;
       const endIndex = Math.min(startIndex + PAGE_SIZE, totalItems);
-      const newItems = generateMockData(endIndex - startIndex).map((item, index) => ({
-        ...item,
-        id: `item_${startIndex + index}`,
-        title: `Item ${startIndex + index + 1}`,
-        subtitle: `This is the subtitle for item ${startIndex + index + 1}`,
-      }));
-      
-      setData(prevData => [...prevData, ...newItems]);
-      setCurrentPage(prev => prev + 1);
+      const newItems = generateMockData(endIndex - startIndex).map(
+        (item, index) => ({
+          ...item,
+          id: `item_${startIndex + index}`,
+          title: `Item ${startIndex + index + 1}`,
+          subtitle: `This is the subtitle for item ${startIndex + index + 1}`,
+        }),
+      );
+
+      setData((prevData) => [...prevData, ...newItems]);
+      setCurrentPage((prev) => prev + 1);
       setLoadingMore(false);
     }, 300);
   }, [loadingMore, data.length, totalItems, currentPage]);
@@ -121,15 +134,15 @@ export default function LargeListScreen() {
   // Show item details
   const onItemPress = useCallback((item: ListItem, index: number) => {
     Alert.alert(
-      'Item Details',
-      `Title: ${item.title}\nValue: $${item.value}\nIndex: ${index}\nID: ${item.id}`
+      "Item Details",
+      `Title: ${item.title}\nValue: $${item.value}\nIndex: ${index}\nID: ${item.id}`,
     );
   }, []);
 
   // Footer component for loading more
   const renderFooter = useCallback(() => {
     if (!loadingMore) return null;
-    
+
     return (
       <View style={styles.loadingFooter}>
         <ActivityIndicator size="small" color="#007AFF" />
@@ -139,39 +152,46 @@ export default function LargeListScreen() {
   }, [loadingMore]);
 
   // Empty component
-  const renderEmpty = useCallback(() => (
-    <View style={styles.emptyContainer}>
-      <Ionicons name="list-outline" size={60} color="#C7C7CC" />
-      <Text style={styles.emptyText}>No items to display</Text>
-      <TouchableOpacity style={styles.retryButton} onPress={initializeData}>
-        <Text style={styles.retryButtonText}>Retry</Text>
-      </TouchableOpacity>
-    </View>
-  ), [initializeData]);
+  const renderEmpty = useCallback(
+    () => (
+      <View style={styles.emptyContainer}>
+        <Ionicons name="list-outline" size={60} color="#C7C7CC" />
+        <Text style={styles.emptyText}>No items to display</Text>
+        <TouchableOpacity style={styles.retryButton} onPress={initializeData}>
+          <Text style={styles.retryButtonText}>Retry</Text>
+        </TouchableOpacity>
+      </View>
+    ),
+    [initializeData],
+  );
 
   // Header component
-  const ListHeader = useMemo(() => (
-    <View style={styles.header}>
-      <Text style={styles.headerTitle}>Performance Optimized List</Text>
-      <Text style={styles.headerSubtitle}>
-        {data.length.toLocaleString()} of {totalItems.toLocaleString()} items loaded
-      </Text>
-      <View style={styles.statsRow}>
-        <View style={styles.stat}>
-          <Text style={styles.statLabel}>Window Size</Text>
-          <Text style={styles.statValue}>10</Text>
-        </View>
-        <View style={styles.stat}>
-          <Text style={styles.statLabel}>Item Height</Text>
-          <Text style={styles.statValue}>{ITEM_HEIGHT}px</Text>
-        </View>
-        <View style={styles.stat}>
-          <Text style={styles.statLabel}>Page Size</Text>
-          <Text style={styles.statValue}>{PAGE_SIZE}</Text>
+  const ListHeader = useMemo(
+    () => (
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>Performance Optimized List</Text>
+        <Text style={styles.headerSubtitle}>
+          {data.length.toLocaleString()} of {totalItems.toLocaleString()} items
+          loaded
+        </Text>
+        <View style={styles.statsRow}>
+          <View style={styles.stat}>
+            <Text style={styles.statLabel}>Window Size</Text>
+            <Text style={styles.statValue}>10</Text>
+          </View>
+          <View style={styles.stat}>
+            <Text style={styles.statLabel}>Item Height</Text>
+            <Text style={styles.statValue}>{ITEM_HEIGHT}px</Text>
+          </View>
+          <View style={styles.stat}>
+            <Text style={styles.statLabel}>Page Size</Text>
+            <Text style={styles.statValue}>{PAGE_SIZE}</Text>
+          </View>
         </View>
       </View>
-    </View>
-  ), [data.length, totalItems]);
+    ),
+    [data.length, totalItems],
+  );
 
   if (loading && data.length === 0) {
     return (
@@ -207,9 +227,11 @@ export default function LargeListScreen() {
         disableVirtualization={false}
         scrollEventThrottle={16}
         style={styles.flatList}
-        contentContainerStyle={data.length === 0 ? styles.emptyContentContainer : undefined}
+        contentContainerStyle={
+          data.length === 0 ? styles.emptyContentContainer : undefined
+        }
       />
-      
+
       {/* Floating action button to scroll to top */}
       <TouchableOpacity style={styles.fab} onPress={scrollToTop}>
         <Ionicons name="arrow-up" size={24} color="white" />

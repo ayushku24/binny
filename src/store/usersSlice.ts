@@ -1,9 +1,9 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import NetInfo from '@react-native-community/netinfo';
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { User, UsersState } from '../types';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import NetInfo from "@react-native-community/netinfo";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { User, UsersState } from "../types";
 
-const USERS_STORAGE_KEY = '@users_cache';
+const USERS_STORAGE_KEY = "@users_cache";
 const CACHE_EXPIRY_TIME = 5 * 60 * 1000; // 5 minutes
 
 const initialState: UsersState = {
@@ -21,7 +21,7 @@ function isCacheValid(lastFetch: number | null): boolean {
 
 // Load users from cache
 export const loadUsersFromCache = createAsyncThunk(
-  'users/loadFromCache',
+  "users/loadFromCache",
   async () => {
     const cached = await AsyncStorage.getItem(USERS_STORAGE_KEY);
     if (cached) {
@@ -29,57 +29,64 @@ export const loadUsersFromCache = createAsyncThunk(
       return { users, lastFetch };
     }
     return { users: [], lastFetch: null };
-  }
+  },
 );
 
 // Fetch users from API with offline support
 export const fetchUsers = createAsyncThunk(
-  'users/fetchUsers',
+  "users/fetchUsers",
   async (_, { getState, rejectWithValue }) => {
     try {
       // Check network connectivity
       const netInfo = await NetInfo.fetch();
-      
+
       const state = getState() as { users: UsersState };
       const { lastFetch, users: cachedUsers } = state.users;
-      
+
       // If offline, return cached data
       if (!netInfo.isConnected) {
         if (cachedUsers.length > 0) {
           return { users: cachedUsers, fromCache: true };
         }
-        throw new Error('No internet connection and no cached data available');
+        throw new Error("No internet connection and no cached data available");
       }
-      
+
       // If cache is still valid, return cached data
       if (isCacheValid(lastFetch) && cachedUsers.length > 0) {
         return { users: cachedUsers, fromCache: true };
       }
-      
+
       // Fetch from API
-      const response = await fetch('https://jsonplaceholder.typicode.com/users');
+      const response = await fetch(
+        "https://jsonplaceholder.typicode.com/users",
+      );
       if (!response.ok) {
-        throw new Error('Failed to fetch users');
+        throw new Error("Failed to fetch users");
       }
-      
+
       const users: User[] = await response.json();
       const now = Date.now();
-      
+
       // Cache the data
-      await AsyncStorage.setItem(USERS_STORAGE_KEY, JSON.stringify({
-        users,
-        lastFetch: now,
-      }));
-      
+      await AsyncStorage.setItem(
+        USERS_STORAGE_KEY,
+        JSON.stringify({
+          users,
+          lastFetch: now,
+        }),
+      );
+
       return { users, fromCache: false };
     } catch (error) {
-      return rejectWithValue(error instanceof Error ? error.message : 'Unknown error');
+      return rejectWithValue(
+        error instanceof Error ? error.message : "Unknown error",
+      );
     }
-  }
+  },
 );
 
 const usersSlice = createSlice({
-  name: 'users',
+  name: "users",
   initialState,
   reducers: {
     clearError: (state) => {
@@ -93,7 +100,7 @@ const usersSlice = createSlice({
         state.users = action.payload.users;
         state.lastFetch = action.payload.lastFetch;
       })
-      
+
       // Fetch users
       .addCase(fetchUsers.pending, (state) => {
         state.loading = true;
