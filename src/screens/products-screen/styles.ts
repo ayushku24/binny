@@ -1,0 +1,60 @@
+import { StyleSheet } from 'react-native';
+
+export const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: '#F8F9FA' },
+  listContent: { paddingHorizontal: 16, paddingTop: 16 },
+  header: {
+    backgroundColor: 'white',
+    padding: 16,
+    marginBottom: 16,
+    borderRadius: 12,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  headerTop: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 },
+  headerTitle: { fontSize: 24, fontWeight: 'bold', color: '#2C3E50' },
+  headerSubtitle: { fontSize: 14, color: '#666', marginTop: 2 },
+  cartBadgeContainer: { position: 'relative' },
+  cartBadge: {
+    position: 'absolute', top: -8, right: -8, backgroundColor: '#FF3B30', borderRadius: 10,
+    minWidth: 20, height: 20, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 6,
+  },
+  cartBadgeText: { color: 'white', fontSize: 12, fontWeight: 'bold' },
+  searchContainer: {
+    flexDirection: 'row', alignItems: 'center', backgroundColor: '#F8F9FA', borderRadius: 8,
+    paddingHorizontal: 12, marginBottom: 16, height: 40,
+  },
+  searchIcon: { marginRight: 8 },
+  searchInput: { flex: 1, fontSize: 16, color: '#2C3E50' },
+  categoryContainer: { marginBottom: 8 },
+  categoryList: { paddingRight: 16 },
+  categoryButton: {
+    paddingHorizontal: 16, paddingVertical: 8, marginRight: 12, backgroundColor: '#F8F9FA',
+    borderRadius: 20, borderWidth: 1, borderColor: '#E5E5EA',
+  },
+  categoryButtonActive: { backgroundColor: '#007AFF', borderColor: '#007AFF' },
+  categoryButtonText: { fontSize: 14, color: '#666', fontWeight: '500' },
+  categoryButtonTextActive: { color: 'white' },
+  row: { justifyContent: 'space-between' },
+  productCard: {
+    backgroundColor: 'white', borderRadius: 12, marginBottom: 16, shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.1, shadowRadius: 4, elevation: 3, width: '48%',
+  },
+  productImage: { width: '100%', height: 120, borderTopLeftRadius: 12, borderTopRightRadius: 12, backgroundColor: '#F8F9FA', overflow: 'hidden' },
+  productInfo: { padding: 12 },
+  productTitle: { fontSize: 16, fontWeight: '600', color: '#2C3E50', marginBottom: 4 },
+  productDescription: { fontSize: 12, color: '#666', lineHeight: 16, marginBottom: 12 },
+  productFooter: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  productPrice: { fontSize: 18, fontWeight: 'bold', color: '#007AFF' },
+  productCategory: { fontSize: 12, color: '#999', marginTop: 2 },
+  addToCartButton: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#34C759', paddingHorizontal: 12, paddingVertical: 8, borderRadius: 6 },
+  addToCartButtonText: { color: 'white', fontSize: 12, fontWeight: '600', marginLeft: 4 },
+  emptyContainer: { alignItems: 'center', paddingVertical: 60 },
+  emptyText: { fontSize: 18, color: '#666', marginTop: 16, fontWeight: '600' },
+  emptySubtext: { fontSize: 14, color: '#999', marginTop: 8, textAlign: 'center' },
+});
+
+

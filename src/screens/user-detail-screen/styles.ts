@@ -1,0 +1,138 @@
+import { StyleSheet } from 'react-native';
+
+export const styles = StyleSheet.create({  
+    container: {
+      flex: 1,
+      backgroundColor: '#F8F9FA',
+    },
+    scrollView: {
+      flex: 1,
+    },
+    headerSection: {
+      backgroundColor: 'white',
+      alignItems: 'center',
+      paddingVertical: 32,
+      marginBottom: 20,
+    },
+    avatar: {
+      width: 80,
+      height: 80,
+      borderRadius: 40,
+      backgroundColor: '#007AFF',
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginBottom: 16,
+    },
+    avatarText: {
+      color: 'white',
+      fontSize: 24,
+      fontWeight: 'bold',
+    },
+    name: {
+      fontSize: 24,
+      fontWeight: 'bold',
+      color: '#2C3E50',
+      marginBottom: 4,
+      textAlign: 'center',
+    },
+    username: {
+      fontSize: 16,
+      color: '#666',
+      marginBottom: 16,
+    },
+    deepLinkButton: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingHorizontal: 16,
+      paddingVertical: 8,
+      backgroundColor: '#E3F2FD',
+      borderRadius: 16,
+    },
+    deepLinkButtonText: {
+      color: '#007AFF',
+      fontSize: 14,
+      fontWeight: '600',
+      marginLeft: 4,
+    },
+    section: {
+      backgroundColor: 'white',
+      marginHorizontal: 16,
+      marginBottom: 16,
+      borderRadius: 12,
+      padding: 16,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 4,
+      elevation: 3,
+    },
+    sectionTitle: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      color: '#2C3E50',
+      marginBottom: 16,
+    },
+    actionGrid: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      justifyContent: 'space-between',
+    },
+    actionButton: {
+      width: '48%',
+      alignItems: 'center',
+      paddingVertical: 16,
+      backgroundColor: '#F8F9FA',
+      borderRadius: 8,
+      marginBottom: 12,
+    },
+    actionButtonText: {
+      color: '#2C3E50',
+      fontSize: 14,
+      fontWeight: '600',
+      marginTop: 8,
+    },
+    infoCard: {
+      backgroundColor: '#F8F9FA',
+      borderRadius: 8,
+      padding: 16,
+    },
+    infoRow: {
+      flexDirection: 'row',
+      alignItems: 'flex-start',
+      marginBottom: 16,
+    },
+    infoContent: {
+      flex: 1,
+      marginLeft: 12,
+    },
+    infoLabel: {
+      fontSize: 14,
+      color: '#666',
+      marginBottom: 2,
+    },
+    infoValue: {
+      fontSize: 16,
+      color: '#2C3E50',
+      fontWeight: '500',
+    },
+    errorContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      paddingHorizontal: 40,
+    },
+    errorTitle: {
+      fontSize: 24,
+      fontWeight: 'bold',
+      color: '#2C3E50',
+      marginTop: 16,
+      textAlign: 'center',
+    },
+    errorSubtitle: {
+      fontSize: 16,
+      color: '#666',
+      marginTop: 12,
+      textAlign: 'center',
+      lineHeight: 24,
+    },
+  });
